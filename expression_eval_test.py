@@ -2,9 +2,6 @@ import unittest
 import expression_eval
 
 
-# expression = "+20/4+5+*1000+9--*" # 50.5
-
-
 class StackExpressionEvaluatorTestCase(unittest.TestCase):
 
     def testWellFormedExpression(self):
@@ -36,6 +33,15 @@ class StackExpressionEvaluatorTestCase(unittest.TestCase):
         input_str = "5+4*6/2"
         result = expression_eval.evaluate(input_str)
         self.assertEqual(17, result)
+
+    def testSequentialOperators(self):
+        """
+        When there are sequentail operators in the expression, the algorithm
+        should fail and evaluate should return None.
+        """
+        input_str = "5+4**6/2"
+        result = expression_eval.evaluate(input_str)
+        self.assertEqual(None, result)
 
 if __name__ == "__main__":
     unittest.main()

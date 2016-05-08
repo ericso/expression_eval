@@ -25,8 +25,12 @@ def evaluate(expression):
     # The result to return
     result = 0
 
+    # Iterate over expression to evalute.
     for c in expression:
         if c in op_priorities:
+            if main_stack and main_stack[-1] in op_priorities:
+                # We have two operators in a row. Error.
+                return None
             if current_priority is None:
                 current_priority = op_priorities[c]
                 main_stack.append(c)
