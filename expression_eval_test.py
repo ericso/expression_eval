@@ -19,6 +19,16 @@ class StackExpressionEvaluatorTestCase(unittest.TestCase):
         result = expression_eval.evaluate(input_str)
         self.assertEqual(5014, result)
 
+    def testSingleCharacterResultNumber(self):
+        input_str = "5"
+        result = expression_eval.evaluate(input_str)
+        self.assertEqual(5, result)
+
+    def testSingleCharacterResultOperator(self):
+        input_str = "*"
+        result = expression_eval.evaluate(input_str)
+        self.assertEqual(None, result)
+
     def testUnrecognizedOperator(self):
         input_str = "20/4+5^1000+9"
         result = expression_eval.evaluate(input_str)
@@ -30,7 +40,7 @@ class StackExpressionEvaluatorTestCase(unittest.TestCase):
         currently will still return the correct result as if they were not
         there.
         """
-        input_str = "5+4*6/2"
+        input_str = "+5+4*6/2/"
         result = expression_eval.evaluate(input_str)
         self.assertEqual(17, result)
 
@@ -42,6 +52,22 @@ class StackExpressionEvaluatorTestCase(unittest.TestCase):
         input_str = "5+4**6/2"
         result = expression_eval.evaluate(input_str)
         self.assertEqual(None, result)
+
+    def testParenthesis(self):
+        """
+        Groups of expressions enclosed in parens should be evaluated first.
+        """
+        input_str = "(5+4)*(6/2)"
+        result = expression_eval.evaluate(input_str)
+        self.assertEqual(27, result)
+
+    def testNestedParenthesis(self):
+        """
+        Groups of expressions enclosed in parens should be evaluated first.
+        """
+        input_str = "(5+4)*((6/2)+10)"
+        result = expression_eval.evaluate(input_str)
+        self.assertEqual(117, result)
 
 if __name__ == "__main__":
     unittest.main()
